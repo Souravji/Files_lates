@@ -1,0 +1,121 @@
+
+1) https://en.proft.me/2016/08/4/async-tutorial-asynchronous-programming-nodejs-lov/
+---------------------------------------------------------------------------------------------------------------------------------
+// Inside of "doThis" it's referenced as "callback" which is just a variable that is holding the reference to this function
+
+function getFullName() {
+     var  a = 5;
+   return a;
+}
+function getFullNametwo() {
+     var  b = 20;
+  return b;
+}
+
+function doStuff() {
+  var a = getFullName();
+  var b = getFullNametwo();
+  var c = a+b;
+  return c;
+
+;
+}
+
+console.log(doStuff());
+--------------------------------------------------------------------------------
+
+var myCallback = function(err, data) {
+  if (err) throw err; // Check for the error and throw if it exists.
+  console.log('got data for 1: '+data); // Otherwise proceed as usual.
+};
+
+var myCallbacktwo = function(err, data) {
+  if (err) throw err; // Check for the error and throw if it exists.
+  console.log('myCallbacktwo : '+ data); // Otherwise proceed as usual.
+};
+
+
+var usingItNow = function(callback) {
+       
+   callback(null, 'First Function');
+   
+   console.log("3rd Function");
+     myCallbacktwo(null,'Second Functions');
+};
+
+usingItNow(myCallback);
+----------------------------------------------------------------------------------------
+function serverRequest(query,cb){
+  
+    var response = query + "full!";
+    cb(response);
+  
+}
+
+function getResults(results){
+  console.log("Response from the server: " + results);
+}
+
+serverRequest("The glass is half ", getResults);
+
+----------------------------------------------------------------------------------------
+
+
+var async1 = require('async');
+
+exports.asyncSeries1 = function (req, res, callback) {
+
+    var sharedData = "Data from : ";
+    async1.series([
+            // First function
+            function(callback) {
+                sharedData = "First Callback";
+                callback();
+            },
+            // Second function
+            function(callback){
+                console.log(sharedData);
+                sharedData = "Second Callback";
+                callback();
+            }
+        ],
+        // Final callback 
+        function(err) {
+            console.log(sharedData);
+            if (err) {
+                callback();
+            }
+            callback();
+        }
+    );
+};
+------------------------------------------------------------------
+
+var async = require("async");
+
+//series calls the final callback function on every successful execution of the function in the list.
+asyncSeries1 = function () {
+async.series([
+  function(callback) {
+    setTimeout(function() {
+      console.log("Task 1");
+      callback(null, 1);
+    }, 300);
+  },
+  function(callback) {
+    setTimeout(function() {
+      console.log("Task 2");
+      callback(null, 2);
+    }, 200);
+  },
+  function(callback) {
+    setTimeout(function() {
+      console.log("Task 3");
+      callback(null, 3);
+    }, 100);
+  }
+], function(error, results) {
+  console.log(results);
+});
+}
+asyncSeries1();

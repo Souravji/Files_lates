@@ -1,0 +1,85 @@
+LaunchTime
+
+aws ec2 describe-images --filters Name=description,Values=soft_ami --query "Images[?CreationDate>=`2016-09-25`][ImageId]" --output text > C:\amioutput.txt
+
+
+aws ec2 describe-volumes --query 'Volumes[?AvailabilityZone==`us-west-2a`]'
+
+
+https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-output.html
+
+
+aws ec2 describe-instances \
+    --filters Name=instance-state-name,Values=running \
+    --query 'Reservations[*].Instances[].[InstanceId, BlockDeviceMappings[*].{DeviceName:DeviceName,VolumeName:Ebs.VolumeId}, Tags[?Key==`Name`]]'
+
+
+
+http://jmespath.org/specification.html#filter-expressions
+
+
+https://stackoverflow.com/questions/23437701/aws-sdk-javascript-filter-on-tagkey-value/23768668
+
+
+https://stackoverflow.com/questions/47235462/aws-sdk-ec2-describeinstances-not-listing-all-ec2-instances
+
+https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-instances.html
+
+aws ec2 describe-instances --filters  "Name=instance-state-name,Values=running" --query 'Reservations[].Instances[].[ [Tags[?Key==`Name`].Value][0][0],[Tags[?Key==`Alias`].Value][0][0],PrivateIpAddress,State.Name ]' --output json
+
+
+------------------------------------------------
+const AWS = require('aws-sdk')
+
+let credentials = new AWS.SharedIniFileCredentials({
+  profile: 'my_profile'
+})
+AWS.config.credentials = credentials
+AWS.config.update({
+  region: 'ap-northeast-1'
+})
+
+const ec2 = new AWS.EC2()
+
+let params = {
+  Filters: [
+    {
+      Name: 'iam-instance-profile.arn',
+      Values: [`arn:aws:iam::123456789123:instance-profile/The_Name_of_My_IAM_Role`]
+    },
+    {
+      Name: 'instance-state-name',
+      Values: ['running']
+    }
+  ]
+}
+ec2.describeInstances(params, (err, data) => {
+  if (err) {
+    console.log(`describeInstances error: ${err}`)
+  } else {
+    console.log(`data.Reservations.length: ${data.Reservations.length}`)
+  }
+})
+------------------------------------------------------------------------
+
+var params = {
+    DryRun: false,
+    Filters: [
+        {
+            Name: 'instance-state-name',
+            Values: [
+                'running'
+            ],
+        },
+        {
+    		Name: 'tag:foo',
+    		Values: [
+            		  'production'
+    	     		],
+	},
+    ]
+};
+
+ec2.describeInstances(params, function (err, data) {
+...--------------------------------------------
+

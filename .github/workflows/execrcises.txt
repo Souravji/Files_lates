@@ -1,0 +1,147 @@
+1. how to pass output from one func to another func--->
+-----------------------------------------------------------------
+usecase1
+=====================================
+var add = function (a, b) {
+    return a+b;
+}
+
+
+var handle_data = function (func) {
+    // get data from user or other external source
+    var x = 2;
+    var y = 3;
+    return func(x, y);
+}
+
+console.log(handle_data(add));       // 5
+console.log(handle_data(subtract));  // -1
+---------------------------------------------------------------------
+usecase2
+===========================
+function firstFunction() {
+  // do something
+  return "testing 123";
+}
+function  testCase() {
+  var test = firstFunction(); 
+  alert(test);
+}
+
+
+
+console.log(testCase());
+---------------------------------------------------------------------
+
+
+2. how to pass output from one func to another func(using call back)
+
+var getEmpObj = function (callback) {
+        result = "Lingeswaran M";
+        callback(result);
+    
+}
+
+
+var updateEmpAddress = function (callback) {
+    
+    console.log("Call Back function is called", callback);
+           
+   
+}
+
+getEmpObj(updateEmpAddress);
+-----------------------------------------------------------
+var getEmpObj = function (one,data,callback) {
+        result = "Lingeswaran M        " + data+"-------------"+ one;
+        callback(result);
+    
+}
+
+
+var updateEmpAddress = function (err,result) {
+    
+    console.log("Call Back function is called", result);
+           
+   
+}
+
+getEmpObj("Rajesh","params",updateEmpAddress);
+-----------------------------------------------------------------------------
+
+3. how to execute multiple commands using child process or spawn or fork etc..
+
+
+var exec = require('child_process').exec;
+var cmdss = ('node -v','dir *');
+
+
+var getEmpObj = function (callback) {
+ exec('node -v && dir * && type exe1.js', function(error, result, stderr) {
+
+if(error){
+
+throw error;
+
+}
+
+callback(result);
+
+});
+}
+
+var updateEmpAddress = function (result) {
+    
+    console.log("Call Back function is called", result);
+           
+   
+}
+
+getEmpObj(updateEmpAddress); 
+
+
+
+
+-----------------------------------------------------------------------------
+4. How to use async series for callback?
+
+
+var async = require("async");
+
+//series calls the final callback function on every successful execution of the function in the list.
+asyncSeries1 = function () {
+async.series([
+  function(callback) {
+    setTimeout(function() {
+      console.log("Task 1");
+      callback(null, 1);
+    }, 300);
+  },
+  function(callback) {
+    setTimeout(function() {
+      console.log("Task 2");
+      callback(null, 2);
+    }, 200);
+  },
+  function(callback) {
+    setTimeout(function() {
+      console.log("Task 3");
+      callback(null, 3);
+    }, 100);
+  }
+], function(error, results) {
+  console.log(results);
+});
+}
+asyncSeries1();
+----------------------------------------------------------
+
+5. async and await use cases?
+
+-----------------------------------------------------------
+6. how to multiple function in one function?
+
+
+https://www.dashingd3js.com/lessons/javascript-callback-functions
+https://javascript.info/async-await
+https://www.geeksforgeeks.org/using-async-await-in-node-js/

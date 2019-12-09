@@ -1,0 +1,34 @@
+https://cloudsso.cisco.com/idp/C7snz/resume/idp/prp.ping
+
+https://mail.cisco.com/owa/auth/logon.aspx?url=https%3a%2f%2fmail.cisco.com%2fowa%2f%23authRedirect%3dtrue&reason=0
+
+https://www.freeformatter.com/url-parser-query-string-splitter.html
+
+https://ops-sse.cisco.com
+
+https://kubernetes.io/docs/concepts/architecture/master-node-communication/
+
+https://www.digitalocean.com/community/tutorials/how-to-install-go-1-6-on-ubuntu-14-04
+  
+ Installation of Golang
+===================================================================================
+ 1) https://medium.com/@patdhlk/how-to-install-go-1-9-1-on-ubuntu-16-04-ee64c073cd79
+
+ 2) https://golang.org/doc/install?download=go1.13.5.linux-amd64.tar.gz
+
+Run the Golang program
+============================
+
+1) cd $HOME/go/src/hello
+
+2) go build
+3) ./hello
+---------------------
+The easiest way to run the program
+-----------------------------------
+go run hello.go
+
+
+
+
+
